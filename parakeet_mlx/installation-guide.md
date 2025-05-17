@@ -9,7 +9,7 @@ for speech-to-text transcription on macOS with Apple Silicon.
 
 ## Table of Contents
 1. [System Requirements](#system-requirements)
-2. [Installation](#installation)
+2. [One-Step Installation](#one-step-installation)
 3. [Getting Started](#getting-started)
 4. [Using the Interface](#using-the-interface)
 5. [Advanced Features](#advanced-features)
@@ -24,65 +24,42 @@ for speech-to-text transcription on macOS with Apple Silicon.
 - At least **4GB** of available RAM
 - At least **2GB** of disk space for models and temporary files
 
-## Installation
+## One-Step Installation
 
-### Step 1: Install Python (if not already installed)
-
-The recommended approach is to use [Homebrew](https://brew.sh/):
+The Parakeet MLX Web UI uses `uv` for streamlined dependency management. Installation is a single-step process:
 
 ```bash
-# Install Homebrew if not already installed
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-# Install Python
-brew install python@3.10
-```
-
-### Step 2: Install FFmpeg
-
-```bash
-brew install ffmpeg
-```
-
-### Step 3: Set Up a Virtual Environment (Recommended)
-
-```bash
-# Navigate to your desired location
+# Create a directory for the app (optional)
 mkdir parakeet-ui
 cd parakeet-ui
 
-# Create a virtual environment
-python3 -m venv venv
-
-# Activate the virtual environment
-source venv/bin/activate
-```
-
-### Step 4: Install Parakeet MLX and the Web UI
-
-```bash
-# Install dependencies
-pip install parakeet-mlx gradio rich scipy ffmpeg-python
-
-# Download the web UI script
+# Download the app script
 curl -o parakeet_ui.py https://raw.githubusercontent.com/yourusername/parakeet-mlx-webui/main/parakeet_ui.py
-```
 
-Alternatively, create a new file named `parakeet_ui.py` and copy-paste the code from the provided script.
-
-## Getting Started
-
-### Running the Web UI
-
-```bash
-# Make sure your virtual environment is activated
-source venv/bin/activate
-
-# Run the UI
+# Run the app (it will auto-install all dependencies)
 python parakeet_ui.py
 ```
 
-After running the command, open your browser to http://127.0.0.1:7860/
+That's it! The script will automatically:
+1. Install `uv` if not present
+2. Use `uv` to install all required dependencies
+3. Install Parakeet MLX if not present
+4. Check for FFmpeg and provide installation instructions if needed
+5. Launch the web interface
+
+### Installing FFmpeg
+
+FFmpeg is required for audio conversion. If not already installed:
+
+```bash
+# Using Homebrew (recommended)
+brew install ffmpeg
+
+# OR using MacPorts
+port install ffmpeg
+```
+
+## Getting Started
 
 ### First-Time Setup
 
@@ -91,6 +68,8 @@ When you first open the web UI:
 1. Go to the **Settings** tab
 2. Click **Load Model** to download and initialize the default model
 3. Wait for the "Model loaded successfully" message
+
+The model will be downloaded automatically the first time you use it.
 
 ## Using the Interface
 
@@ -163,9 +142,15 @@ python parakeet_ui.py --host 0.0.0.0 --port 8080
 - Increase chunk duration for better performance on longer files
 - Close other resource-intensive applications
 
-### Logs
+### Dependency Issues
 
-Check the terminal where you launched the application for detailed logs and error messages.
+If you encounter issues with dependencies:
+
+```bash
+# Manual installation of dependencies
+python -m pip install uv
+python -m uv pip install parakeet-mlx gradio rich scipy ffmpeg-python
+```
 
 ## Additional Resources
 
@@ -173,6 +158,7 @@ Check the terminal where you launched the application for detailed logs and erro
 - [MLX Framework Documentation](https://ml-explore.github.io/mlx/build/html/index.html)
 - [Gradio Documentation](https://www.gradio.app/docs)
 - [FFmpeg Documentation](https://ffmpeg.org/documentation.html)
+- [UV Documentation](https://github.com/astral-sh/uv)
 
 ## License
 
